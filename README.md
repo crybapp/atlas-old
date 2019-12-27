@@ -1,7 +1,7 @@
 
 ![Cryb OSS](.github/cryb.png "Cryb OSS Logo")
 
-_**Atlas** <sup>Beta</sup> - Xen orchestration_
+_**Atlas**<sup>Beta</sup> - Xen orchestration_
 
 [![GitHub contributors](https://img.shields.io/github/contributors/crybapp/atlas)](https://github.com/crybapp/atlas/graphs/contributors) [![License](https://img.shields.io/github/license/crybapp/atlas)](https://github.com/crybapp/atlas/blob/master/LICENSE) [![Patreon Donate](https://img.shields.io/badge/donate-Patreon-red.svg)](https://patreon.com/cryb)
 

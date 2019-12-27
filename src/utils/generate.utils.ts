@@ -8,6 +8,7 @@ const flake = new FlakeId({
 })
 
 export const generateFlake = () => intformat(flake.next(), 'dec')
+export const generateAuthenticationCode = () => Math.floor(100000 + Math.random() * 900000)
 
 export const signToken = (data: any, headers: SignOptions = {}) => new Promise<string>((resolve, reject) => {
     try {

@@ -3,11 +3,11 @@ import express from 'express'
 import VM from '../models/vm'
 
 import { handleError } from '../utils/errors.utils'
-import authenticate from '../utils/authenticate.utils'
+// import authenticate from '../utils/authenticate.utils'
 
 const app = express()
 
-app.post('/', authenticate, async (req, res) => {
+app.post('/', async (req, res) => {
     const { code: _code } = req.body
     
     let code = parseInt(_code)
@@ -17,7 +17,7 @@ app.post('/', authenticate, async (req, res) => {
         const vm = await new VM().loadFromAuthenticationCode(code),
                 token = vm.signToken()
 
-        res.send({ id: vm.id, token })
+        res.send({ id: vm.id, token, vm })
     } catch(error) {
         handleError(error, res)
     }

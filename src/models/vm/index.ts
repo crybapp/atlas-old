@@ -116,6 +116,7 @@ export default class VM {
 
         this.linked = json.info.linked
         this.connected = json.info.connected
+        this.authenticationCode = json.info.authenticationCode
 
         this.room = json.info.room
         this.owner = json.info.owner

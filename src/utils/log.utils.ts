@@ -44,5 +44,5 @@ export default (msg: string, prefixes: LogPrefix[] | string, color: LogColor = '
     }
 
     // Log the env, prefix and message
-    console.log(`[CRYB-API-${process.env.NODE_ENV.toUpperCase()}] ${prefix} ${msg}`)
+    console.log(`[CRYB-ATLAS-${process.env.NODE_ENV.toUpperCase()}] ${prefix} ${msg}`)
 }

@@ -7,8 +7,9 @@ const VMSchema = new Schema({
         id: String,
         createdAt: String,
 
-        linked: String,
-        connected: String,
+        linked: Boolean,
+        connected: Boolean,
+        authenticationCode: Number,
 
         room: String,
         owner: String

@@ -1,124 +1,168 @@
-import IVM from './defs'
 import StoredVM from '../../schemas/vm.schema'
+import IVM from './defs'
 
-import { generateFlake, generateAuthenticationCode } from '../../utils/generate.utils'
 import { sign } from 'jsonwebtoken'
+import { generateAuthenticationCode, generateFlake } from '../../utils/generate.utils'
 
 export default class VM {
-    id: string
-    createdAt: number
+	public id: string
+	public createdAt: number
 
-    firstAuthenticatedAt: number
-    lastAuthenticatedAt: number
+	public firstAuthenticatedAt: number
+	public lastAuthenticatedAt: number
 
-    linked: boolean
-    connected: boolean
-    authenticationCode: number
+	public linked: boolean
+	public connected: boolean
+	public authenticationCode?: number
 
-    room: string
-    owner: string
+	public room: string
+	public owner: string
 
-    constructor(json?: IVM) {
-        if(!json) return
-        
-        this.setup(json)
-    }
+	constructor(json?: IVM) {
+		if (!json) return
 
-    load = (id: string) => new Promise<VM>(async (resolve, reject) => {
-        try {
-            const doc = await StoredVM.findOne({ 'info.id': id })
-            if(!doc) throw 'VMNotFound'
+		this.setup(json)
+	}
 
-            this.setup(doc)
+	public load = (id: string) => new Promise<VM>(async (resolve, reject) => {
+		try {
+			const doc = await StoredVM.findOne({ 'info.id': id })
+			if (!doc) throw 'VMNotFound'
 
-            resolve(this)
-        } catch(error) {
-            reject(error)
-        }
-    })
-    
-    loadFromAuthenticationCode = (code: number) => new Promise<VM>(async (resolve, reject) => {
-        try {
-            const doc = await StoredVM.findOne({ 'info.authenticationCode': code })
-            if(!doc) throw 'VMNotFound'
+			this.setup(doc)
 
-            this.setup(doc)
+			resolve(this)
+		} catch (error) {
+			reject(error)
+		}
+	})
 
-            resolve(this)
-        } catch(error) {
-            reject(error)
-        }
-    })
+	public loadFromAuthenticationCode = (code: number) => new Promise<VM>(async (resolve, reject) => {
+		try {
+			const doc = await StoredVM.findOne({ 'info.authenticationCode': code })
+			if (!doc) throw 'VMNotFound'
 
-    create = (userId: string) => new Promise<VM>(async (resolve, reject) => {
-        try {
-            const json: IVM = {
-                info: {
-                    id: generateFlake(),
-                    createdAt: Date.now(),
+			this.setup(doc)
 
-                    linked: false,
-                    connected: false,
+			resolve(this)
+		} catch (error) {
+			reject(error)
+		}
+	})
 
-                    authenticationCode: generateAuthenticationCode(),
+	public create = (userId: string) => new Promise<VM>(async (resolve, reject) => {
+		try {
+			const json: IVM = {
+				info: {
+					id: generateFlake(),
+					createdAt: Date.now(),
 
-                    room: null,
-                    owner: userId
-                }
-            }
+					linked: false,
+					connected: false,
 
-            const stored = new StoredVM(json)
-            await stored.save()
+					authenticationCode: generateAuthenticationCode(),
 
-            this.setup(json)
+					room: null,
+					owner: userId
+				}
+			}
 
-            resolve(this)
-        } catch(error) {
-            reject(error)
-        }
-    })
+			const stored = new StoredVM(json)
+			await stored.save()
 
-    signToken = () => sign({ id: this.id, type: 'vm' }, process.env.JWT_KEY)
+			this.setup(json)
 
-    regenerateAuthenticationCode = () => new Promise<VM>(async (resolve, reject) => {
-        try {
-            const authenticationCode = generateAuthenticationCode()
+			resolve(this)
+		} catch (error) {
+			reject(error)
+		}
+	})
 
-            await StoredVM.updateOne({
-                'info.id': this.id
-            }, {
-                $set: {
-                    'info.authenticationCode': authenticationCode
-                }
-            })
+	public link = () => new Promise<VM>(async (resolve, reject) => {
+		if(this.linked)
+			return reject('VMAlreadyLinked')
 
-            this.authenticationCode = authenticationCode
+		try {
+			await this.regenerateAuthenticationCode()
 
-            resolve(this)
-        } catch(error) {
-            reject(error)
-        }
-    })
+			resolve(this.updateLinkStatus(true))
+		} catch (error) {
+			reject(error)
+		}
+	})
 
-    destroy = () => new Promise(async (resolve, reject) => {
-        try {
-            await StoredVM.deleteOne({ 'info.id': this.id })
+	public unlink = () => new Promise<VM>(async (resolve, reject) => {
+		try {
+			resolve(await this.updateLinkStatus(false))
+		} catch (error) {
+			reject(error)
+		}
+	})
 
-            resolve()
-        } catch(error) {
-            reject(error)
-        }
-    })
+	public signToken = () => sign({ id: this.id, type: 'vm' }, process.env.JWT_KEY)
 
-    setup(json: IVM) {
-        this.id = json.info.id
-        this.createdAt = json.info.createdAt
+	public regenerateAuthenticationCode = () => new Promise<VM>(async (resolve, reject) => {
+		try {
+			const authenticationCode = generateAuthenticationCode()
 
-        this.linked = json.info.linked
-        this.connected = json.info.connected
-        this.authenticationCode = json.info.authenticationCode
+			await StoredVM.updateOne({
+				'info.id': this.id
+			}, {
+				$set: {
+					'info.authenticationCode': authenticationCode
+				}
+			})
 
-        this.room = json.info.room
-        this.owner = json.info.owner
-    }
+			this.authenticationCode = authenticationCode
+
+			resolve(this)
+		} catch (error) {
+			reject(error)
+		}
+	})
+
+	public destroy = () => new Promise(async (resolve, reject) => {
+		try {
+			await StoredVM.deleteOne({ 'info.id': this.id })
+
+			resolve()
+		} catch (error) {
+			reject(error)
+		}
+	})
+
+	public setup(json: IVM) {
+		this.id = json.info.id
+		this.createdAt = json.info.createdAt
+
+		this.linked = json.info.linked
+		this.connected = json.info.connected
+		this.authenticationCode = json.info.authenticationCode
+
+		this.room = json.info.room
+		this.owner = json.info.owner
+	}
+
+	private updateLinkStatus = (isLinked: boolean) => new Promise<VM>(async (resolve, reject) => {
+		try {
+			const update = {}
+
+			update['info.linked'] = isLinked
+
+			if (!isLinked)
+				update['info.connected'] = false
+
+			await StoredVM.updateOne({
+				'info.id': this.id
+			}, {
+				$set: update
+			})
+
+			this.linked = isLinked
+
+			resolve(this)
+		} catch (error) {
+			reject(error)
+		}
+	})
 }

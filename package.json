@@ -10,7 +10,7 @@
 		"start": "node dist",
 		"dev": "tsc-watch --outDir ./dist --onSuccess \"yarn start\" --compiler typescript/bin/tsc",
 		"build": "tsc",
-    "lint": "tslint src/**/*.ts{,x}"
+		"lint": "tslint src/**/*.ts{,x}"
 	},
 	"dependencies": {
 		"@cryb/mesa": "^1.1.3",

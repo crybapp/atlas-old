@@ -1,13 +1,14 @@
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 
 import { createServer } from 'http'
 
-import express, { json } from 'express'
 import Mesa from '@cryb/mesa'
+import express, { json } from 'express'
 
+import cors from 'cors'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import cors from 'cors'
 
 import { connect } from 'mongoose'
 

@@ -11,8 +11,11 @@ const VMSchema = new Schema({
 		connected: Boolean,
 		authenticationCode: Number,
 
-		room: String,
-		owner: String
+		owner: String,
+		portal: String
+	},
+	data: {
+		name: String
 	}
 })
 

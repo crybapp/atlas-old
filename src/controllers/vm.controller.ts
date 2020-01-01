@@ -9,6 +9,21 @@ import { extractObjectId, extractObjectType } from '../utils/helpers.utils'
 const app = express()
 
 /**
+ * Get VM
+ */
+app.get('/:id', authenticate, async (req, res) => {
+	const { id } = req.params
+
+	try {
+		const vm = await new VM().load(id)
+
+		res.send(vm)
+	} catch (error) {
+		handleError(error, res)
+	}
+})
+
+/**
  * Create VM
  */
 app.post('/create', authenticate, async (req, res) => {

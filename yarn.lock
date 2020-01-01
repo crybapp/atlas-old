@@ -19,9 +19,9 @@
     js-tokens "^4.0.0"
 
 "@cryb/mesa@^1.1.3":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@cryb/mesa/-/mesa-1.2.2.tgz#5c33bb8f17bb39dd1ef6ac9b9accc77c3a2a2d40"
-  integrity sha512-0MHYcdx9OwvYCJl9x24erf2ye6Q53Nx6nBULoGHGZvhMAX7toDd/mI0fTz5h2fEG/ohGuWFzmk2BC/upYyvXyA==
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@cryb/mesa/-/mesa-1.2.4.tgz#b1dcee2a506007570936ad7b8b8f0e6abdad0d16"
+  integrity sha512-BsZrsIMDn8lFv431AY5xwga/T6pyR6dE3bFaPlK2ZXbvUb9UMo2yE5agPLsPAMQlfOkIzmXhzpPeMtjPqNfX3w==
   dependencies:
     ioredis "^4.14.1"
     ws "^7.2.1"
@@ -46,7 +46,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chance@^1.0.6":
+"@types/chance@^1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@types/chance/-/chance-1.0.8.tgz#48e0a5648f54487a9128915fe090154fb1a2f348"
   integrity sha512-S1VWROFGexiUYyBFsP0NRjp6PkJ4rKECQ3HQJ0cJKW/2BcNyas9lXATRdnTNnN4CsICjEXTltAalAo8dJQQLKg==
@@ -376,7 +376,7 @@ chalk@^2.0.0, chalk@^2.3.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chance@^1.0.18:
+chance@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/chance/-/chance-1.1.4.tgz#d8743bf8e40bb05e024c305ca1ff441195eb23db"
   integrity sha512-pXPDSu3knKlb6H7ahQfpq//J9mSOxYK8SMtp8MV/nRJh8aLRDIl0ipLH8At8+nVogVwtvPZzyIzY/EbcY/cLuQ==

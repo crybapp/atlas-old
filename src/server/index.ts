@@ -34,7 +34,7 @@ const mesa = new Mesa({
 	}
 })
 
-connect(process.env.MONGO_URI, { useNewUrlParser: true })
+connect(process.env.MONGO_URI, { useUnifiedTopology: true, useNewUrlParser: true })
 
 app.use(helmet())
 

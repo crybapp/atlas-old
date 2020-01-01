@@ -9,8 +9,11 @@ export default interface IVM {
 		connected: boolean
 		authenticationCode?: number
 
-		room: string
 		owner: string
+		portal?: string
+	}
+	data: {
+		name: string
 	}
 }
 

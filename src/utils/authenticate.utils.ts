@@ -5,7 +5,7 @@ import { handleError } from './errors.utils'
 const authenticate = (token: string) => new Promise(async (resolve, reject) => {
 	try {
 		const { data } = await axios.post(`${process.env.AUTH_BASE_URL}`, { token }),
-				{ resource, type } = data
+			{ resource, type } = data
 
 		resolve({ ...resource, type })
 	} catch (error) {

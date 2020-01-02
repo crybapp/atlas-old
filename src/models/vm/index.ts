@@ -1,10 +1,8 @@
-import { sign } from 'jsonwebtoken'
-
 import StoredVM from '../../schemas/vm.schema'
 import IVM from './defs'
 
 import { VMNotFound } from '../../utils/errors.utils'
-import { generateAuthenticationCode, generateFlake, generateVMName } from '../../utils/generate.utils'
+import { generateAuthenticationCode, generateFlake, generateVMName, signToken } from '../../utils/generate.utils'
 
 export default class VM {
 	public id: string
@@ -111,7 +109,7 @@ export default class VM {
 		}
 	})
 
-	public signToken = () => sign({ id: this.id, type: 'vm' }, process.env.JWT_KEY)
+	public signToken = () => signToken({ id: this.id, type: 'vm' })
 
 	public destroy = () => new Promise(async (resolve, reject) => {
 		try {

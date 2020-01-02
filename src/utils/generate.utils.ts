@@ -5,7 +5,7 @@ import intformat from 'biguint-format'
 import FlakeId from 'flake-idgen'
 
 const flake = new FlakeId({
-		epoch: new Date(2000, 7, 25)
+	epoch: new Date(2000, 7, 25)
 })
 
 const chance = new Chance()
@@ -26,25 +26,25 @@ export const generateVMName = (): string => {
 }
 
 export const signToken = (data: any, headers: SignOptions = {}) => new Promise<string>((resolve, reject) => {
-		try {
-				const token = sign(data, process.env.JWT_KEY, headers)
+	try {
+		const token = sign(data, process.env.JWT_KEY, headers)
 
-				resolve(token)
-		} catch (error) {
-				console.error(error)
+		resolve(token)
+	} catch (error) {
+		console.error(error)
 
-				reject(error)
-		}
+		reject(error)
+	}
 })
 
 export const verifyToken = (token: string) => new Promise<any>((resolve, reject) => {
-		try {
-				const data = verify(token, process.env.JWT_KEY)
+	try {
+		const data = verify(token, process.env.JWT_KEY)
 
-				resolve(data)
-		} catch (error) {
-				console.error(error)
+		resolve(data)
+	} catch (error) {
+		console.error(error)
 
-				reject(error)
-		}
+		reject(error)
+	}
 })
